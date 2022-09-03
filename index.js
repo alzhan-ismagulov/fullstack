@@ -1,10 +1,4 @@
-const express = require('express')
-const app = express()
+const app = require('./app')
+const port = process.env.port || 5000
 
-app.get('/', (req, res) => {
-    res.status(200).json({
-        message: 'Server has been started'
-    })
-})
-
-app.listen(5000, ()=>console.log(`Server has been started on`)) //Слушаем сервер
+app.listen(port, ()=>console.log(`Server has been started on ${port}`)) //Слушаем сервер
