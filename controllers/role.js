@@ -1,7 +1,7 @@
 module.exports.getAll = function(req, res){
     res.status(200).json({
-        categoryId: 'from controller'
-    })    
+        role: 'from controller'
+    })  
 }
 module.exports.getById = function(req, res){
     
