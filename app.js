@@ -1,4 +1,5 @@
 const express = require('express')
+const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const authRoutes = require('./routes/auth') //Регистрируем роуты
@@ -7,7 +8,13 @@ const categoryRoutes = require('./routes/category')
 const orderRoutes = require('./routes/order')
 const positionRoutes = require('./routes/position')
 const roleRoutes = require('./routes/role')
+const keys = require('./config/keys')
 const app = express()
+
+//подключение бд
+mongoose.connect(keys.mongoURI) 
+.then(() => console.log('MongoDB connected'))
+.catch(error => console.log(error))
 
 app.use(require('morgan')('dev'))
 app.use(bodyParser.urlencoded({extended:true}))
