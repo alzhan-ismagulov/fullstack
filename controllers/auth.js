@@ -10,6 +10,7 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 //Подключаем keys
 const keys = require('../config/keys')
+const errorHandler = require('../utils/errorHandler')
 
 //Функция авторизации
 module.exports.login = async function(req, res){
@@ -73,7 +74,7 @@ module.exports.register = async function(req, res){
             //Показываем, что регистрация прошла успешно, посылая json информацию об емайл и пароле
             res.status(201).json(user)      
         } catch(e){
-            //Обработать ошибку
+            errorHandler(res, e)
         }
         
    }
