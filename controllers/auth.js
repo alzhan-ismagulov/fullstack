@@ -1,17 +1,44 @@
+//Контроллер auth
+
 //Подключаем express
 const { response } = require('express')
 //Подключаем модуль хэширования
 const bcrypt = require('bcryptjs')
+//Подключает пакет для токенов
+const jwt = require('jsonwebtoken')
 //Подключаем модель User
 const User = require('../models/User')
+//Подключаем keys
+const keys = require('../config/keys')
 
-module.exports.login = function(req, res){
-    res.status(200).json({
-        login: {
-            email: req.body.email,
-            password: req.body.password
+//Функция авторизации
+module.exports.login = async function(req, res){
+    const candidate = await User.findOne({email: req.body.email})
+
+    if(candidate){
+        //Проверка пароля, пользователь существует
+        const passwordResult = bcrypt.compareSync(req.body.password, candidate.password)
+        if(passwordResult){
+            //Генерация токена, пароли совпали
+            const token = jwt.sign({
+                email: candidate.email,
+                userId: candidate._id
+            }, keys.jwt, {expiresIn: 60 * 60})
+            res.status(200).json({
+                token: `Bearer ${token}`
+            }) 
+        }else{
+            //пароли не совпали
+            res.status(401).json({
+                message: 'Пароли не совпадают. Попробуйте снова.'
+            })    
         }
-    })
+    } else {
+        //Пользователя нет, ошибка
+        res.status(404).json({
+            message: 'Пользователь с таким емайл не найден.'
+        })
+    }
 }
 
 //Регистрация нового пользователя
