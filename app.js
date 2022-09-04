@@ -1,8 +1,9 @@
+//Подключение
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const authRoutes = require('./routes/auth') //Регистрируем роуты
+const authRoutes = require('./routes/auth') 
 const analyticsRoutes = require('./routes/analytics')
 const categoryRoutes = require('./routes/category')
 const orderRoutes = require('./routes/order')
